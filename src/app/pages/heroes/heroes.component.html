@@ -1,0 +1,6 @@
+<ul>
+    <li *ngFor="let hero of (allHeroes$ | async); let i = index; trackBy: trackByIndex" >
+      {{ hero.name }} - {{ hero.powers }} - {{ hero.rating }}
+    </li>
+  </ul>
+  
