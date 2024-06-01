@@ -2,7 +2,9 @@ import { createReducer, on } from '@ngrx/store';
 import { IHero } from '../../pages/heroes/models/hero';
 import {
   addHero,
+  addHeroSuccess,
   editHero,
+  editHeroSuccess,
   loadHeroes,
   loadHeroesFailure,
   loadHeroesSuccess,
@@ -21,6 +23,8 @@ export const heroInitialState: HeroState = {
   status: 'pending',
 };
 
+
+
 export const heroReducer = createReducer(
   heroInitialState,
   on(addHero, (state, { content }) => ({
@@ -28,9 +32,19 @@ export const heroReducer = createReducer(
     heroes: [...state.heroes, { ...content }],
     status: 'success' as 'pending' | 'loading' | 'success' | 'error',
   })),
+  on(addHeroSuccess, (state) => ({
+    ...state,
+    error: null,
+    status: 'success' as 'pending' | 'loading' | 'success' | 'error',
+  })),
   on(editHero, (state, { content }) => ({
     ...state,
     heroes: replaceHero([...state.heroes], content),
+    status: 'success' as 'pending' | 'loading' | 'success' | 'error',
+  })),
+  on(editHeroSuccess, (state) => ({
+    ...state,
+    error: null,
     status: 'success' as 'pending' | 'loading' | 'success' | 'error',
   })),
   on(removeHero, (state, { id }) => ({

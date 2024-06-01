@@ -1,0 +1,10 @@
+@for(star of ratingArr; track $index){
+<span>
+    @if($index + 1 <= rating){ <mat-icon (click)="onStarClick($index + 1)">star</mat-icon>
+        }
+        @else {
+        <mat-icon (click)="onStarClick($index + 1)">star_border</mat-icon>
+        }
+
+</span>
+}

@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="login-form-container">
+    <div class="title">
+        <h2>United Nations Super <br>
+            Heroes Fund</h2>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center center">
+
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" formControlName="username" placeholder="Username" autocomplete="off" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Password" autocomplete="off"
+                required>
+            @if(loginForm.get('password')?.hasError('minlength')){
+            <mat-error>
+                Minimum length is 8 characters
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role" required autocomplete="off">
+                <mat-option value="Admin">Admin</mat-option>
+                <mat-option value="Hero">Hero</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Login</button>
+        <div class="registerArea">
+            <p>Not Registered ?, You Can Register Here... <strong (click)="navigateToRegister()">Register</strong></p>
+        </div>
+
+    </form>
+</div>

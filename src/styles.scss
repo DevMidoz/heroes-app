@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  .success-snackbar {
+    background-color: #72ebb7;
+    color: rgb(4, 80, 52);
+  }
+  .error-snackbar {
+    background-color: #eb7272;
+    color: rgb(80, 4, 4);
+  }
+}

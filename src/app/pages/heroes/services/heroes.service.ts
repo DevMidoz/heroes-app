@@ -9,14 +9,23 @@ import { TypedAction } from '@ngrx/store/src/models';
   providedIn: 'root',
 })
 export class HeroesService {
-  createHero(heroes: IHero[], actions: ({ content: IHero; } & TypedAction<"[Hero Page] Add Hero">) | ({ content: IHero; } & TypedAction<"[Hero Page] Edit Hero">) | ({ id: string; } & TypedAction<"[Hero Page] Remove Hero">)): Observable<any> {
-    console.log(actions);
-    return of(heroes).pipe(
-      map((heroes) => heroes.map((hero) => ({ ...hero })))
-    );
+  createHero(request: IHero): Observable<any> {
+    return of(heroes).pipe(map((heroes) => [...heroes, { ...request }]));
   }
-  updateHero(heroes: IHero[]): Observable<any> {
-    throw new Error('Method not implemented.');
+  updateHero(request: IHero): Observable<any> {
+    return of(heroes).pipe(
+      map((heroes) => {
+        let foundHeroIndex = heroes.findIndex((hero) => hero.id === request.id);
+        if (foundHeroIndex > -1) {
+          heroes[foundHeroIndex] = request;
+          // heroes = heroes.filter((hero) => hero.id !== request.id);
+          // let arr = [...heroes, { ...request }];
+          return heroes;
+        } else {
+          return heroes; // i will fix this later
+        }
+      })
+    );
   }
   deleteHero(heroes: IHero[]): Observable<any> {
     throw new Error('Method not implemented.');
@@ -26,6 +35,8 @@ export class HeroesService {
       map((heroes) => heroes.map((hero) => ({ ...hero })))
     );
   }
+
+  
 
   constructor() {}
 }

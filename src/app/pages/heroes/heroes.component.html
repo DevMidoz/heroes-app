@@ -1,6 +1,50 @@
-<ul>
-    <li *ngFor="let hero of (allHeroes$ | async); let i = index; trackBy: trackByIndex" >
-      {{ hero.name }} - {{ hero.powers }} - {{ hero.rating }}
-    </li>
-  </ul>
-  
+<mat-card>
+  <mat-card-header>
+    <div>
+      <h2>Heroes</h2>
+    </div>
+    <div class="header">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput type="text" [(ngModel)]="searchText" (keyup)="searchText$.next(searchText)">
+        @if (searchText) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="search('')">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        }
+      </mat-form-field>
+      <mat-slide-toggle [(ngModel)]="sortByNameToggled" (change)="sortByName()">Sort By Name</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="sortByPowersToggled" (change)="sortByPowers()">Sort By Powers</mat-slide-toggle>
+      <button mat-fab color="accent" aria-label="Add a hero" (click)="openAddHeroDialog()">
+        <mat-icon>add</mat-icon>
+        <span>Add Hero</span>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table matSort [dataSource]="datasource">
+      <ng-container matColumnDef="{{ innerColumn }}" *ngFor="let innerColumn of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ innerColumn }} </th>
+        <td mat-cell *matCellDef="let element">
+          @if(innerColumn === 'rating'){
+          <app-star-rating [rating]="element[innerColumn]"
+            (ratingChanged)="onRatingChange(element, $event)"></app-star-rating>
+          }
+          @else {
+          {{ element[innerColumn] }}
+          }
+
+        </td>
+
+
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background-color: rgb(41, 41, 110); color: white;">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Heroes pagination"></mat-paginator>
+  </mat-card-footer>
+</mat-card>
